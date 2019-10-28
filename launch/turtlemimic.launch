@@ -1,0 +1,34 @@
+<launch>
+     <!-- We start the launch file with the launch tag (the), so that the file is identified as a launch file by ROS-->
+     <!-- Tao mot group co namespace la turtlesim1 dieu nay giup he thong co the nhan dien va lien lac voi group, Neu khong dat namespace thi ROS se khong nhan biet duoc group, se bao loi vi khong co namspce cua group -->
+
+     <group ns="turtlesim1"> 
+     <!-- Trong group ta tao mot node tu package turtlesim, mang ten sim (/turtlesim1/sim: node sim thuoc group turtlesim1) va thuoc the loai turtlesim_node-->
+
+        <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+     </group>
+
+     <!-- Here we start two groups with a namespace tag of turtlesim1 and turtlesim2 with a turtlesim node with a name of sim. This allows us to start two simulators without having name conflicts-->
+
+     <group ns="turtlesim2">
+        <node pkg="turtlesim" name="sim" type="turtlesim_node"/>
+     </group>
+
+ <!--  Here we start the mimic node with the topics input and output renamed to turtlesim1 and turtlesim2. This renaming will cause turtlesim2 to mimic turtlesim1-->
+
+ <!--  Tiep theo, ta tao mot node co ten la minic (/minic), node nay nam ngoai cac group-->
+
+
+     <node pkg="turtlesim" name="mimic" type="mimic">
+
+<!--  Cau hinh lai ngo vao, ngo ra cua node bang tag remap. Ket thuc moi tag la "/>"-->
+<!-- Noi ngo vao voi topic "turtlesim1/turtle1". Tuong tu, noi ngo ra voi "turtlesim2/turtle1"-->
+<!-- Cac node cung su dung chung cac topic ma package cung cap (turtlesim), nen neu ta dat ten mot topic moi, no se khong duoc su dung cho cac node duoc tao ra boi package-->
+<!-- /turtlesim2/turtle1/cmd_vel: dia chi la /turtlesim2, publish hoac subcribe chu de la /turtle1/cmd_vel-->
+
+       <remap from="input" to="turtlesim1/turtle1"/>
+       <remap from="output" to="turtlesim2/turtle1"/>
+
+     </node>
+   
+</launch>
